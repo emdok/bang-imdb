@@ -1,5 +1,6 @@
 var imdbApiKey = "k_8oixkc80";
 
+// Get Series/Movie Title from IMDB and ID
 var getIMDBMedia = function (title) {
     var imdbQueryUrl = "https://imdb-api.com/en/API/SearchAll/" + imdbApiKey + "/" + title;
 
@@ -17,31 +18,30 @@ var getIMDBMedia = function (title) {
 
 getIMDBMedia("The Big Lebowski");
 
-//Streaming Availability API
+//Function to use IMDB ID to locate Streaming Services
 var getStreamAvailability = function (mediaId) {
     fetch("https://streaming-availability.p.rapidapi.com/get/basic?country=us&imdb_id=" + mediaId + "&output_language=en", {
-	"method": "GET",
-	"headers": {
-		"x-rapidapi-host": "streaming-availability.p.rapidapi.com",
-		"x-rapidapi-key": "21f375a3cfmsh4f8395beb749419p1aaee6jsn187734a6f501"
-	}
-})
-.then(response => {
-    response.json().then(function (data) {
-        console.log("streamAvail:", data);
-        var banner = data.posterURLs.original;
-        var desc = data.overview;
-        var cast = data.cast;
-        var strmSrvc = data.streamingInfo;
-
-        console.log("banner:", banner);
-        console.log("Description:", desc);
-        console.log("Cast:", cast);
-        console.log("Streaming Services:", strmSrvc);
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-host": "streaming-availability.p.rapidapi.com",
+            "x-rapidapi-key": "21f375a3cfmsh4f8395beb749419p1aaee6jsn187734a6f501"
+        }
     })
-})
-.catch(err => {
-	console.error(err);
-});
+        .then(response => {
+            response.json().then(function (data) {
+                console.log("streamAvail:", data);
+                var banner = data.posterURLs.original;
+                var desc = data.overview;
+                var cast = data.cast;
+                var strmSrvc = data.streamingInfo;
 
+                console.log("banner:", banner);
+                console.log("Description:", desc);
+                console.log("Cast:", cast);
+                console.log("Streaming Services:", strmSrvc);
+            })
+        })
+        .catch(err => {
+            console.error(err);
+        });
 }
