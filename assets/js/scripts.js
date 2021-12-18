@@ -1,4 +1,5 @@
-var imdbApiKey = "k_8oixkc80";
+const imdbApiKey = "k_8oixkc80";
+const nytReviewsApiKey = "1CtMayWncOQbFJuoqvGVAcHGbcd644Hj";
 
 // Get Series/Movie Title from IMDB and ID
 var getIMDBMedia = function (title) {
@@ -9,6 +10,7 @@ var getIMDBMedia = function (title) {
             response.json().then(function (data) {
                 console.log("IMDB:", data);
                 getStreamAvailability(data.results[0].id);
+                getNytReviews(title);
             });
         } else {
             alert("Error: Title not found");
@@ -45,3 +47,18 @@ var getStreamAvailability = function (mediaId) {
             console.error(err);
         });
 }
+
+// API Call to NYTimes Reviews
+var getNytReviews = function (title) {
+    var nytReviewQueryUrl = "https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=" + title + "&api-key=" + nytReviewsApiKey;
+
+    fetch(nytReviewQueryUrl).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (data) {
+                console.log(data);
+            });
+        } else {
+            alert("Error: Review not found");
+        }
+    });
+};
