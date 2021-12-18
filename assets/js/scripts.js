@@ -29,6 +29,15 @@ var getStreamAvailability = function (mediaId) {
 .then(response => {
     response.json().then(function (data) {
         console.log("streamAvail:", data);
+        var banner = data.posterURLs.original;
+        var desc = data.overview;
+        var cast = data.cast;
+        var strmSrvc = data.streamingInfo;
+
+        console.log("banner:", banner);
+        console.log("Description:", desc);
+        console.log("Cast:", cast);
+        console.log("Streaming Services:", strmSrvc);
     })
 })
 .catch(err => {
