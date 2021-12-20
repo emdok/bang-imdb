@@ -1,5 +1,6 @@
 const imdbApiKey = "k_8oixkc80";
 const nytReviewsApiKey = "1CtMayWncOQbFJuoqvGVAcHGbcd644Hj";
+const searchQuery = document.querySelector('#fixed-header-drawer-exp');
 
 // Get Series/Movie Title from IMDB and ID
 var getIMDBMedia = function (title) {
@@ -17,8 +18,6 @@ var getIMDBMedia = function (title) {
         }
     });
 };
-
-getIMDBMedia("The Big Lebowski");
 
 //Function to use IMDB ID to locate Streaming Services
 var getStreamAvailability = function (mediaId) {
@@ -62,3 +61,19 @@ var getNytReviews = function (title) {
         }
     });
 };
+
+// Action to take when user has pressed Return, runs getIMDBMedia function on user searchTerms
+var searchTermHandler = function(keyword) {
+    var results = getIMDBMedia(keyword);
+    console.log(results);
+
+}
+
+// listen for the user to press return to capture search term
+searchQuery.addEventListener('keyup', function (event) {
+    if (event.keyCode === 13) {
+        var searchTerms = this.value;
+        searchTermHandler(searchTerms);
+    }
+});
+
