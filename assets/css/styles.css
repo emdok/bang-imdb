@@ -1,0 +1,49 @@
+:root {
+    --primary-color: #192841;
+    --secondary-color: #2E5D78;
+    --tertiary-color: #eee;
+}
+
+.bg-primary {
+    background-color: var(--primary-color);
+}
+
+.wh-12 {
+    height: 3rem;
+    width: 3rem;
+}
+
+.mdl-layout__header {
+    background-color: var(--tertiary-color);
+    color: var(--secondary-color);
+}
+
+.mdl-layout__drawer {
+    background-color: var(--primary-color);
+
+}
+
+.mdl-layout__header .mdl-layout__drawer-button {
+    color: var(--secondary-color);
+
+}
+
+.mdl-grid-logo {
+    margin: 0px;
+}
+
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
+    color: white;
+}
+
+@media screen and (max-width:1024px){
+    .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
+        padding:16px}
+    }
+    .mdl-layout__drawer .mdl-navigation .mdl-navigation__link:hover{
+        background-color:var(--secondary-color)
+    }
+    .mdl-layout__drawer .mdl-navigation .mdl-navigation__link--current {
+        background-color:var(--secondary-color);
+        color: white
+    }
