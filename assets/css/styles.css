@@ -1,0 +1,11 @@
+.search-results {
+    text-align: center;
+}
+
+  .results {
+    border: 5px solid lightgray;
+    height: 100px;
+    width: 200px;
+    display: inline-grid;
+    align-content: center;
+  }
