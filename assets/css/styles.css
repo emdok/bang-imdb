@@ -36,6 +36,30 @@
     color: white;
 }
 
+.mdl-navigation .active {
+    background-color: var(--secondary-color);
+}
+
+/* Modal */
+.mdl-dialog {
+    width: 720px;
+}
+
+.mdl-dialog__actions {
+    justify-content: center;
+}
+
+.mdl-dialog__actions .mdl-button {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.mdl-dialog__actions .mdl-button:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Media Queries */
+
 @media screen and (max-width:1024px){
     .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
         padding:16px}
