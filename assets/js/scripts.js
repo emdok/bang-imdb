@@ -114,7 +114,7 @@ navTvShows.addEventListener("click", function() {
 });
 
 // on click refresh page, display new and popular results
-var navNewAndPopular = document.querySelector("#new-and-popular");
-navNewAndPopular.addEventListener("click", function() {
-    alert("new and popular clicked");
+var navPopular = document.querySelector("#popular");
+navPopular.addEventListener("click", function() {
+    alert("popular clicked");
 });
