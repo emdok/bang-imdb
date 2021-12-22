@@ -1,7 +1,6 @@
 const imdbApiKey = "k_8oixkc80";
 const nytReviewsApiKey = "1CtMayWncOQbFJuoqvGVAcHGbcd644Hj";
 const searchQuery = document.querySelector('#fixed-header-drawer-exp');
-const watchModeApiKey = "LBUAUg5tpurxjgEnCdht6oBCWWtDsLRQHrDVG2BG";
 
 
 function sleep(milliseconds) {
