@@ -29,7 +29,6 @@ var getIMDBMedia = function (title) {
 //Function to use IMDB ID to locate Streaming Services
 function getStreamAvailability (mediaId) {
     try{
-    console.log('media Id is: ', mediaId) 
     return fetch("https://streaming-availability.p.rapidapi.com/get/basic?country=us&imdb_id=" + mediaId + "&output_language=en", {
         "method": "GET",
         "headers": {
@@ -39,7 +38,7 @@ function getStreamAvailability (mediaId) {
         }
     }).then(function (response){
             if(response.status === 404){
-                alert('sorry this movie isn\'t availible');
+                console.log('sorry this movie isn\'t availible');
             } else {
             return response.json().then(function (data) {
                 console.log("streamAvail:", data);
@@ -47,10 +46,7 @@ function getStreamAvailability (mediaId) {
                 var desc = data.overview;
                 var cast = data.cast;
                 var strmSrvc = data.streamingInfo;
-                console.log("banner:", banner);
-                console.log("Description:", desc);
-                console.log("Cast:", cast);
-                console.log("Streaming Services:", strmSrvc);
+
             }).catch(err => {
                 console.error('error in .json: ', err)
             })
@@ -74,7 +70,7 @@ var getNytReviews = function (title) {
                 console.log(data);
             });
         } else {
-            alert("Error: Review not found");
+            console.log("Error: Review not found");
         }
     });
 };
