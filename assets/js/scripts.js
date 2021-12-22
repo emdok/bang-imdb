@@ -95,3 +95,26 @@ searchQuery.addEventListener('keyup', function (event) {
 });
 
 ///
+// on click refresh homepage with default view
+var navHome = document.querySelector("#home");
+navHome.addEventListener("click", function() {
+    alert("home clicked");  
+});
+
+ // on click refresh homepage, display only movies
+var navMovies = document.querySelector("#movies");
+navMovies.addEventListener("click", function() {
+    alert("movies clicked"); 
+});
+
+// on click refresh homepage, display only tv shows
+var navTvShows = document.querySelector("#tv-shows");
+navTvShows.addEventListener("click", function() {
+    alert("tv shows clicked");
+});
+
+// on click refresh page, display new and popular results
+var navNewAndPopular = document.querySelector("#new-and-popular");
+navNewAndPopular.addEventListener("click", function() {
+    alert("new and popular clicked");
+});
