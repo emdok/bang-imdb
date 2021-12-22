@@ -1,5 +1,38 @@
 const imdbApiKey = "k_8oixkc80";
 const nytReviewsApiKey = "1CtMayWncOQbFJuoqvGVAcHGbcd644Hj";
+const searchQuery = document.querySelector('#fixed-header-drawer-exp');
+
+
+function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+        currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+}
+
+//Default list of shows from IMDB
+var getDefaultIMDBMedia = function () {
+    var imdbQueryUrl = "https://imdb-api.com/API/AdvancedSearch/" + imdbApiKey + "?title_type=feature,tv_series&countries=us&languages=en&sort=boxoffice_gross_us,desc";
+
+    fetch(imdbQueryUrl).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (data) {
+                var array = data.results;
+                console.log(data);
+                for (let i = 0; i < 50; i++) {
+                    sleep(250);
+                    var media = array[i].id;
+                    getStreamAvailability(media)
+                }
+            });
+        } else {
+            alert("Error: Title not found");
+        }
+    });
+};
+
+getDefaultIMDBMedia();
 
 // Get Series/Movie Title from IMDB and ID
 var getIMDBMedia = function (title) {
@@ -8,44 +41,55 @@ var getIMDBMedia = function (title) {
     fetch(imdbQueryUrl).then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
-                console.log("IMDB:", data);
-                getStreamAvailability(data.results[0].id);
+                var array = data.results;
+                console.log(array);
+                for (let i = 0; i < 5; i++) {
+                    getStreamAvailability(array[i].id).catch(err => {
+                        console.log('error in getIMDBMedia is: ', err)
+                    })
+                }
                 getNytReviews(title);
             });
         } else {
             alert("Error: Title not found");
         }
+    }).catch(err => {
+        console.error('error in imdb media fetch: ', err);
     });
 };
 
-getIMDBMedia("The Big Lebowski");
 
 //Function to use IMDB ID to locate Streaming Services
-var getStreamAvailability = function (mediaId) {
-    fetch("https://streaming-availability.p.rapidapi.com/get/basic?country=us&imdb_id=" + mediaId + "&output_language=en", {
-        "method": "GET",
-        "headers": {
-            "x-rapidapi-host": "streaming-availability.p.rapidapi.com",
-            "x-rapidapi-key": "21f375a3cfmsh4f8395beb749419p1aaee6jsn187734a6f501"
-        }
-    })
-        .then(response => {
-            response.json().then(function (data) {
-                console.log("streamAvail:", data);
-                var banner = data.posterURLs.original;
-                var desc = data.overview;
-                var cast = data.cast;
-                var strmSrvc = data.streamingInfo;
+function getStreamAvailability(mediaId) {
+    var streamingArray = [];
 
-                console.log("banner:", banner);
-                console.log("Description:", desc);
-                console.log("Cast:", cast);
-                console.log("Streaming Services:", strmSrvc);
-            })
+    try {
+        fetch("https://streaming-availability.p.rapidapi.com/get/ultra?imdb_id=" + mediaId + "&output_language=en", {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "streaming-availability.p.rapidapi.com",
+                "x-rapidapi-key": "d9ad7c19d0msh5e66719b7acc4f6p117731jsn3cd820ad1e3b"
+            }
+        }).then(function (response) {
+            if (response.status === 404) {
+                console.log('sorry this movie isn\'t availible');
+            } else {
+
+                response.json().then(function (data) {
+                    console.log("streamAvail:", data);
+                    streamingArray.push(data);
+
+                }).catch(err => {
+                    console.error('error in .json: ', err)
+                })
+            }
         })
-        .catch(err => {
-            console.error(err);
-        });
+            .catch(err => {
+                console.error('error in fetchL ', err);
+            });
+    } catch (err) {
+        console.log('error in catch block', err)
+    }
 }
 
 // API Call to NYTimes Reviews
@@ -58,31 +102,46 @@ var getNytReviews = function (title) {
                 console.log(data);
             });
         } else {
-            alert("Error: Review not found");
+            console.log("Error: Review not found");
         }
     });
 };
 
-// on click refresh homepage with default view
-var navHome = document.querySelector("#home");
-navHome.addEventListener("click", function() {
-    alert("home clicked");  
+// Action to take when user has pressed Return, runs getIMDBMedia function on user searchTerms
+var searchTermHandler = function (keyword) {
+    var results = getIMDBMedia(keyword);
+    console.log(results);
+
+}
+
+// listen for the user to press return to capture search term
+searchQuery.addEventListener('keyup', function (event) {
+    if (event.keyCode === 13) {
+        var searchTerms = this.value;
+        searchTermHandler(searchTerms);
+    }
 });
 
- // on click refresh homepage, display only movies
+///
+// on click refresh homepage with default view
+var navHome = document.querySelector("#home");
+navHome.addEventListener("click", function () {
+    alert("home clicked");
+});
+
+// on click refresh homepage, display only movies
 var navMovies = document.querySelector("#movies");
-navMovies.addEventListener("click", function() {
-    alert("movies clicked"); 
+navMovies.addEventListener("click", function () {
+    alert("movies clicked");
 });
 
 // on click refresh homepage, display only tv shows
 var navTvShows = document.querySelector("#tv-shows");
-navTvShows.addEventListener("click", function() {
+navTvShows.addEventListener("click", function () {
     alert("tv shows clicked");
 });
 
 // on click refresh page, display new and popular results
-var navNewAndPopular = document.querySelector("#new-and-popular");
-navNewAndPopular.addEventListener("click", function() {
-    alert("new and popular clicked");
-});
+var navPopular = document.querySelector("#popular");
+navPopular.addEventListener("click", function () {
+    alert("popular clicked");

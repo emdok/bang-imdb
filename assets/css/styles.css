@@ -52,7 +52,7 @@
 
 h3 {
   font-size: 20px;
-  margin-left: 80px;
+  margin-left: 20px;
 
 }
 
@@ -60,7 +60,8 @@ h3 {
     margin: auto;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    width: fit-content;
+    width: 80vw;
+    height: 90vh;
     overflow: auto;
     border: 10px solid lightgray;
     
@@ -69,9 +70,9 @@ h3 {
 .mdl-grid__recent {
   margin: auto;
   display: grid;
-  grid-column-start: 2;
   grid-template-columns: repeat(4, 2fr);
-  width: fit-content;
+  width: 80vw;
+  height: 90vh;
   overflow: auto;
   border: 10px solid lightgray;
   }
@@ -79,8 +80,8 @@ h3 {
 .mdl-cell {
   margin: auto;
   border: 5px solid lightgray;
-  height: 350px;
-  width: 250px;
+  height: 100%;
+  width: 100%;
   display: inline-grid;
 }
 
