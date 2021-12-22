@@ -1,6 +1,29 @@
 const imdbApiKey = "k_8oixkc80";
 const nytReviewsApiKey = "1CtMayWncOQbFJuoqvGVAcHGbcd644Hj";
 
+
+//Default list of shows from IMDB
+var getDefaultIMDBMedia = function () {
+    var imdbQueryUrl = "https://imdb-api.com/API/AdvancedSearch/" + imdbApiKey + "?title_type=feature,tv_movie,tv_series,tv_miniseries&sort=release_date,desc";
+
+    fetch(imdbQueryUrl).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (data) {
+                var array = data.results;
+
+                for (let i = 0; i < 10; i++) {
+                    var media = array[i].id;
+                    getStreamAvailability(media);
+                }
+            });
+        } else {
+            alert("Error: Title not found");
+        }
+    });
+};
+
+getDefaultIMDBMedia();
+
 // Get Series/Movie Title from IMDB and ID
 var getIMDBMedia = function (title) {
     var imdbQueryUrl = "https://imdb-api.com/en/API/SearchAll/" + imdbApiKey + "/" + title;
@@ -18,7 +41,7 @@ var getIMDBMedia = function (title) {
     });
 };
 
-getIMDBMedia("The Big Lebowski");
+// getIMDBMedia("The Big Lebowski");
 
 //Function to use IMDB ID to locate Streaming Services
 var getStreamAvailability = function (mediaId) {
