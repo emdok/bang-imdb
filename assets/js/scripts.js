@@ -188,15 +188,15 @@ navPopular.addEventListener("click", function () {
 function cardMaker(title, banner, streamLink, streamName) {
 
     mediaGridEl.innerHTML += `
-    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col">
+    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
     <div class="mdl-card__title">
-      <h2 class="mdl-card__subtitle-text">${title}</h2>
+      <h2 class="mdl-card__subtitle-text truncate">${title}</h2>
     </div>
     <div class="mdl-card__media">
       <img src="${banner}" width="100%" alt="">
     </div>
     <div class="mdl-card__actions mdl-card--border">
-      <a href="${streamLink}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+      <a href="${streamLink}" class="card-button mdl-button mdl-js-button mdl-js-ripple-effect">
         ${streamName}
       </a>
     </div>
