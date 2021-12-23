@@ -145,8 +145,6 @@ var searchTermHandler = function (keyword) {
 
     userSearchHistory.push(keyword);
     localStorage.setItem("search term", JSON.stringify(userSearchHistory));
-    recentSearchHistory();
-
     mediaGridEl.innerHTML = "";
     var results = getIMDBMedia(keyword);
     console.log(results);
