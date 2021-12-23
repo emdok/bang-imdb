@@ -90,7 +90,7 @@ function getStreamAvailability(mediaId) {
                     console.log(banner);
                     console.log(title);
 
-                    cardMaker(title, serviceLink, serviceName);
+                    cardMaker(title, banner, serviceLink, serviceName);
 
                 }).catch(err => {
                     console.error('error in .json: ', err)
@@ -132,7 +132,7 @@ var recentSearchHistory = function () {
         userSearchHistory = JSON.parse(localStorage.getItem("search term"));
 
         for (var i = 0; i < userSearchHistory.length; i++) {
-                getIMDBMedia(userSearchHistory[i]);
+            getIMDBMedia(userSearchHistory[i]);
         };
     }
 };
@@ -185,12 +185,15 @@ navPopular.addEventListener("click", function () {
     alert("popular clicked");
 });
 
-function cardMaker(title, streamLink, streamName) {
-    
+function cardMaker(title, banner, streamLink, streamName) {
+
     mediaGridEl.innerHTML += `
-    <div class="demo-card-square mdl-card mdl-shadow--2dp">
-    <div class="mdl-card__title mdl-card--expand">
+    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col">
+    <div class="mdl-card__title">
       <h2 class="mdl-card__title-text">${title}</h2>
+    </div>
+    <div class="mdl-card__media">
+      <img src="${banner}" width="100%" alt="">
     </div>
     <div class="mdl-card__actions mdl-card--border">
       <a href="${streamLink}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
