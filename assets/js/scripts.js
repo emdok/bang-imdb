@@ -44,6 +44,7 @@ var getIMDBMedia = function (title) {
                 var array = data.results;
                 console.log(array);
                 for (let i = 0; i < 5; i++) {
+                    debugger;
                     getStreamAvailability(array[i].id).catch(err => {
                         console.log('error in getIMDBMedia is: ', err)
                     })
@@ -78,7 +79,7 @@ function getStreamAvailability(mediaId) {
                 response.json().then(function (data) {
                     console.log("streamAvail:", data);
 
-                    var banner = data.backdropURLs.original;
+                    var banner = "https://image.tmdb.org/t/p/w500/" + data.posterPath;
                     var title = data.title;
                     var streaming = data.streamingInfo;
                     var service = Object.values(streaming)[0];
@@ -88,7 +89,7 @@ function getStreamAvailability(mediaId) {
                     console.log(banner);
                     console.log(title);
 
-                    cardMaker(banner, title, serviceLink);
+                    cardMaker(title, serviceLink);
 
                 }).catch(err => {
                     console.error('error in .json: ', err)
@@ -120,6 +121,7 @@ var getNytReviews = function (title) {
 
 // Action to take when user has pressed Return, runs getIMDBMedia function on user searchTerms
 var searchTermHandler = function (keyword) {
+    mediaGridEl.innerHTML = "";
     var results = getIMDBMedia(keyword);
     console.log(results);
 
@@ -128,10 +130,9 @@ var searchTermHandler = function (keyword) {
 // listen for the user to press return to capture search term
 searchQuery.addEventListener('keyup', function (event) {
     if (event.keyCode === 13) {
-        mediaGridEl.innerHTML = "";
         var searchTerms = this.value;
+        
         searchTermHandler(searchTerms);
-
     }
 });
 
@@ -160,7 +161,7 @@ navPopular.addEventListener("click", function () {
     alert("popular clicked");
 });
 
-function cardMaker(img, title, stream) {
+function cardMaker(title, stream) {
     
     mediaGridEl.innerHTML += `
     <div class="demo-card-square mdl-card mdl-shadow--2dp">
@@ -174,11 +175,4 @@ function cardMaker(img, title, stream) {
     </div>
   </div>
     `
-var mediaCard = document.createElement();
-mediaGridEl.appendChild(mediaCard);
-
-
-    for (let i = 0; i < 50; i++) {
-     cardMaker(img, title, stream); 
-    }
 };
