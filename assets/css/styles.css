@@ -81,10 +81,17 @@ h3 {
   margin: auto;
   border: 5px solid lightgray;
   height: 100%;
-  width: 100%;
   display: inline-grid;
 }
 
 .mdl-button {
   margin-top: auto;
+}
+
+.cell-width-100 {
+  width: 100%;
+}
+
+.mdl-grid {
+  height: 80vh;
 }
