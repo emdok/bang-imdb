@@ -85,10 +85,12 @@ function getStreamAvailability(mediaId) {
                     var service2 = Object.values(service)[0];
                     var serviceLink = service2.link;
                     console.log(serviceLink);
+                    var serviceName = strmServiceTitle(serviceLink);
+                    console.log(serviceName);
                     console.log(banner);
                     console.log(title);
 
-                    cardMaker(title, serviceLink);
+                    cardMaker(title, serviceLink, serviceName);
 
                 }).catch(err => {
                     console.error('error in .json: ', err)
@@ -101,6 +103,12 @@ function getStreamAvailability(mediaId) {
     } catch (err) {
         console.log('error in catch block', err)
     }
+}
+
+// Function to pull out streaming service Title from link
+function strmServiceTitle(str) {
+    var title = str.split('.');
+    return title[1];
 }
 
 // API Call to NYTimes Reviews
@@ -179,7 +187,7 @@ navPopular.addEventListener("click", function () {
     alert("popular clicked");
 });
 
-function cardMaker(title, stream) {
+function cardMaker(title, streamLink, streamName) {
     
     mediaGridEl.innerHTML += `
     <div class="demo-card-square mdl-card mdl-shadow--2dp">
@@ -187,8 +195,8 @@ function cardMaker(title, stream) {
       <h2 class="mdl-card__title-text">${title}</h2>
     </div>
     <div class="mdl-card__actions mdl-card--border">
-      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-        ${stream}
+      <a href="${streamLink}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+        ${streamName}
       </a>
     </div>
   </div>
