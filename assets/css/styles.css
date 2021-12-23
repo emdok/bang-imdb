@@ -1,61 +1,90 @@
 :root {
-    --primary-color: #192841;
-    --secondary-color: #2E5D78;
-    --tertiary-color: #eee;
+  --primary-color: #192841;
+  --secondary-color: #2E5D78;
+  --tertiary-color: #eee;
 }
 
 .bg-primary {
-    background-color: var(--primary-color);
+  background-color: var(--primary-color);
 }
 
 .wh-12 {
-    height: 3rem;
-    width: 3rem;
+  height: 3rem;
+  width: 3rem;
 }
 
 .mdl-layout__header {
-    background-color: var(--tertiary-color);
-    color: var(--secondary-color);
+  background-color: var(--tertiary-color);
+  color: var(--secondary-color);
 }
 
 .mdl-layout__drawer {
-    background-color: var(--primary-color);
+  background-color: var(--primary-color);
 
 }
 
 .mdl-layout__header .mdl-layout__drawer-button {
-    color: var(--secondary-color);
+  color: var(--secondary-color);
 
 }
 
 .mdl-grid-logo {
-    margin: 0px;
+  margin: 20px 30px 0px 100px;
 }
 
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
-    color: white;
+  color: white;
 }
 
 @media screen and (max-width:1024px){
-    .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
-        padding:16px}
-    }
-    .mdl-layout__drawer .mdl-navigation .mdl-navigation__link:hover{
-        background-color:var(--secondary-color)
-    }
-    .mdl-layout__drawer .mdl-navigation .mdl-navigation__link--current {
-        background-color:var(--secondary-color);
-        color: white
-    }
-
-/* card Style */
-
-  .demo-card-square.mdl-card {
-    width: 320px;
-    height: 320px;
+  .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
+      padding:16px}
   }
-  .demo-card-square > .mdl-card__title {
-    color: #fff;
-    background:
-      url('../assets/demos/dog.png') bottom right 15% no-repeat #46B6AC;
+  .mdl-layout__drawer .mdl-navigation .mdl-navigation__link:hover{
+      background-color:var(--secondary-color)
   }
+  .mdl-layout__drawer .mdl-navigation .mdl-navigation__link--current {
+      background-color:var(--secondary-color);
+      color: white
+  }
+
+
+
+h3 {
+  font-size: 20px;
+  margin-left: 20px;
+
+}
+
+.mdl-grid__search {
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 80vw;
+    height: 90vh;
+    overflow: auto;
+    border: 10px solid lightgray;
+    
+  }
+
+.mdl-grid__recent {
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 2fr);
+  width: 80vw;
+  height: 90vh;
+  overflow: auto;
+  border: 10px solid lightgray;
+  }
+
+.mdl-cell {
+  margin: auto;
+  border: 5px solid lightgray;
+  height: 100%;
+  width: 100%;
+  display: inline-grid;
+}
+
+.mdl-button {
+  margin-top: auto;
+}
