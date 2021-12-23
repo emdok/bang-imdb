@@ -1,7 +1,7 @@
 const imdbApiKey = "k_8oixkc80";
 const nytReviewsApiKey = "1CtMayWncOQbFJuoqvGVAcHGbcd644Hj";
 const searchQuery = document.querySelector('#fixed-header-drawer-exp');
-
+var mediaGridEl = document.querySelector("#media-grid");
 
 function sleep(milliseconds) {
     const date = Date.now();
@@ -128,8 +128,10 @@ var searchTermHandler = function (keyword) {
 // listen for the user to press return to capture search term
 searchQuery.addEventListener('keyup', function (event) {
     if (event.keyCode === 13) {
+        mediaGridEl.innerHTML = "";
         var searchTerms = this.value;
         searchTermHandler(searchTerms);
+
     }
 });
 
@@ -159,8 +161,8 @@ navPopular.addEventListener("click", function () {
 });
 
 function cardMaker(img, title, stream) {
-    var mediaGridEl = document.querySelector("#media-grid");
-    mediaGridEl.innerHTML = `
+    
+    mediaGridEl.innerHTML += `
     <div class="demo-card-square mdl-card mdl-shadow--2dp">
     <div class="mdl-card__title mdl-card--expand">
       <h2 class="mdl-card__title-text">${title}</h2>
@@ -172,4 +174,11 @@ function cardMaker(img, title, stream) {
     </div>
   </div>
     `
-}
+var mediaCard = document.createElement();
+mediaGridEl.appendChild(mediaCard);
+
+
+    for (let i = 0; i < 50; i++) {
+     cardMaker(img, title, stream); 
+    }
+};
