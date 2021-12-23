@@ -56,6 +56,10 @@
     background-color: var(--secondary-color); 
 }
 
+.mdl-card__media {
+  background-color: transparent;
+}
+
 @media screen and (max-width:1024px){
   .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
       padding:16px}
@@ -97,23 +101,9 @@ h3 {
   border: 10px solid lightgray;
   }
 
-.mdl-cell {
-  margin: auto;
-  border: 5px solid lightgray;
-  height: 100%;
-  display: inline-grid;
-}
-
-.mdl-button {
-  margin-top: auto;
-}
 
 .cell-width-100 {
   width: 100%;
-}
-
-.mdl-grid {
-  height: 80vh;
 }
 
 .h4 {
