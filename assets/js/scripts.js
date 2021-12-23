@@ -1,9 +1,9 @@
 const imdbApiKey = "k_8oixkc80";
-const nytReviewsApiKey = "1CtMayWncOQbFJuoqvGVAcHGbcd644Hj";
 const searchQuery = document.querySelector('#fixed-header-drawer-exp');
 var mediaGridEl = document.querySelector("#media-grid");
 var userSearchHistory = [];
 
+// Function to sleep to prevent 429 errors on API Calls
 function sleep(milliseconds) {
     const date = Date.now();
     let currentDate = null;
@@ -49,7 +49,6 @@ var getIMDBMedia = function (title) {
                         console.log('error in getIMDBMedia is: ', err)
                     })
                 }
-                getNytReviews(title);
             });
         } else {
             alert("Error: Title not found");
@@ -111,21 +110,6 @@ function strmServiceTitle(str) {
     return title[1];
 }
 
-// API Call to NYTimes Reviews
-var getNytReviews = function (title) {
-    var nytReviewQueryUrl = "https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=" + title + "&api-key=" + nytReviewsApiKey;
-
-    fetch(nytReviewQueryUrl).then(function (response) {
-        if (response.ok) {
-            response.json().then(function (data) {
-                console.log(data);
-            });
-        } else {
-            console.log("Error: Review not found");
-        }
-    });
-};
-
 var recentSearchHistory = function () {
 
     if (localStorage.getItem("search term")) {
@@ -148,7 +132,6 @@ var searchTermHandler = function (keyword) {
     mediaGridEl.innerHTML = "";
     var results = getIMDBMedia(keyword);
     console.log(results);
-
 }
 
 // listen for the user to press return to capture search term
@@ -193,10 +176,9 @@ var getMovieIMDBMedia = function () {
 var navMovies = document.querySelector("#movies");
 navMovies.addEventListener("click", function () {
     event.preventDefault()
-
     console.log("movieClicked");
+
     mediaGridEl.innerHTML = "";
-    
     getMovieIMDBMedia();
     
 });
@@ -227,9 +209,7 @@ navTvShows.addEventListener("click", function () {
     event.preventDefault();
 
     mediaGridEl.innerHTML = "";
-
-    getTvShowIMDBMedia();
-   
+    getTvShowIMDBMedia(); 
 });
 
 var getTopRatedIMDBMedia = function () {
