@@ -190,7 +190,7 @@ function cardMaker(title, banner, streamLink, streamName) {
     mediaGridEl.innerHTML += `
     <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col">
     <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">${title}</h2>
+      <h2 class="mdl-card__subtitle-text">${title}</h2>
     </div>
     <div class="mdl-card__media">
       <img src="${banner}" width="100%" alt="">
