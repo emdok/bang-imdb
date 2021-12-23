@@ -88,3 +88,11 @@ h3 {
 .mdl-button {
   margin-top: auto;
 }
+
+.demo-card-square.mdl-card {
+  width: 320px;
+  height: 320px;
+}
+.demo-card-square > .mdl-card__title {
+
+}

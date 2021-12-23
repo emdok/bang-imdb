@@ -21,7 +21,7 @@ var getDefaultIMDBMedia = function () {
                 var array = data.results;
                 console.log(data);
                 for (let i = 0; i < 50; i++) {
-                    sleep(250);
+                    sleep(150);
                     var media = array[i].id;
                     getStreamAvailability(media)
                 }
@@ -77,7 +77,18 @@ function getStreamAvailability(mediaId) {
 
                 response.json().then(function (data) {
                     console.log("streamAvail:", data);
-                    streamingArray.push(data);
+
+                    var banner = data.backdropURLs.original;
+                    var title = data.title;
+                    var streaming = data.streamingInfo;
+                    var service = Object.values(streaming)[0];
+                    var service2 = Object.values(service)[0];
+                    var serviceLink = service2.link;
+                    console.log(serviceLink);
+                    console.log(banner);
+                    console.log(title);
+
+                    cardMaker(banner, title, serviceLink);
 
                 }).catch(err => {
                     console.error('error in .json: ', err)
@@ -146,3 +157,19 @@ var navPopular = document.querySelector("#popular");
 navPopular.addEventListener("click", function () {
     alert("popular clicked");
 });
+
+function cardMaker(img, title, stream) {
+    var mediaGridEl = document.querySelector("#media-grid");
+    mediaGridEl.innerHTML = `
+    <div class="demo-card-square mdl-card mdl-shadow--2dp">
+    <div class="mdl-card__title mdl-card--expand">
+      <h2 class="mdl-card__title-text">${title}</h2>
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+        ${stream}
+      </a>
+    </div>
+  </div>
+    `
+}
