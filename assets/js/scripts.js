@@ -232,7 +232,7 @@ navTvShows.addEventListener("click", function () {
    
 });
 
-var getPopularIMDBMedia = function () {
+var getTopRatedIMDBMedia = function () {
     var imdbQueryUrl = "https://imdb-api.com/API/AdvancedSearch/" + imdbApiKey + "?title_type=feature,tv_movie,tv_series,tv_episode,documentary&groups=top_100&countries=us&languages=en";
 
     fetch(imdbQueryUrl).then(function (response) {
@@ -253,13 +253,13 @@ var getPopularIMDBMedia = function () {
 };
 
 // on click refresh page, display new and popular results
-var navPopular = document.querySelector("#popular");
+var navTopRated = document.querySelector("#top-rated");
 
-navPopular.addEventListener("click", function () {
+navTopRated.addEventListener("click", function () {
     event.preventDefault();
 
     mediaGridEl.innerHTML = "";
-    getPopularIMDBMedia();
+    getTopRatedIMDBMedia();
 });
 
 function cardMaker(title, banner, streamLink, streamName) {
