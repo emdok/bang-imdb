@@ -36,6 +36,10 @@
   color: white;
 }
 
+.mdl-navigation .active {
+    background-color: var(--secondary-color); 
+}
+
 @media screen and (max-width:1024px){
   .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
       padding:16px}
