@@ -166,25 +166,110 @@ searchQuery.addEventListener('keyup', function (event) {
 // on click refresh homepage with default view
 var navHome = document.querySelector("#home");
 navHome.addEventListener("click", function () {
-    alert("home clicked");
+    event.preventDefault();
+
+    var getDefaultIMDBMedia = function () {
+        var imdbQueryUrl = "https://imdb-api.com/API/AdvancedSearch/" + imdbApiKey + "?title_type=feature,tv_series&countries=us&languages=en&sort=boxoffice_gross_us,desc";
+    
+        fetch(imdbQueryUrl).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (data) {
+                    var array = data.results;
+                    console.log(data);
+                    for (let i = 0; i < 50; i++) {
+                        sleep(150);
+                        var media = array[i].id;
+                        getStreamAvailability(media)
+                    }
+                });
+            } else {
+                alert("Error: Title not found");
+            }
+        });
+    };
+    
+    getDefaultIMDBMedia();    
 });
 
 // on click refresh homepage, display only movies
 var navMovies = document.querySelector("#movies");
 navMovies.addEventListener("click", function () {
-    alert("movies clicked");
+    var getMovieIMDBMedia = function () {
+        var imdbQueryUrl = "https://imdb-api.com/API/AdvancedSearch/" + imdbApiKey + "?title_type=feature,tv_series&countries=us&languages=en&sort=boxoffice_gross_us,desc";
+    
+        fetch(imdbQueryUrl).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (data) {
+                    var array = data.results;
+                    console.log(data);
+                    for (let i = 0; i < 50; i++) {
+                        sleep(150);
+                        var media = array[i].id;
+                        getStreamAvailability(media)
+                    }
+                });
+            } else {
+                alert("Error: Title not found");
+            }
+        });
+    };
+    
+    getMovieIMDBMedia();
+    
 });
 
 // on click refresh homepage, display only tv shows
 var navTvShows = document.querySelector("#tv-shows");
 navTvShows.addEventListener("click", function () {
-    alert("tv shows clicked");
+    event.preventDefault();
+    var getTvShowIMDBMedia = function () {
+        var imdbQueryUrl = "https://imdb-api.com/API/AdvancedSearch/" + imdbApiKey + "?title_type=feature,tv_series&countries=us&languages=en&sort=boxoffice_gross_us,desc";
+    
+        fetch(imdbQueryUrl).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (data) {
+                    var array = data.results;
+                    console.log(data);
+                    for (let i = 0; i < 50; i++) {
+                        sleep(150);
+                        var media = array[i].id;
+                        getStreamAvailability(media)
+                    }
+                });
+            } else {
+                alert("Error: Title not found");
+            }
+        });
+    };
+    
+    getTvShowIMDBMedia();
+   
 });
 
 // on click refresh page, display new and popular results
 var navPopular = document.querySelector("#popular");
 navPopular.addEventListener("click", function () {
-    alert("popular clicked");
+    var getPopularIMDBMedia = function () {
+        var imdbQueryUrl = "https://imdb-api.com/API/AdvancedSearch/" + imdbApiKey + "?title_type=feature,tv_series&countries=us&languages=en&sort=boxoffice_gross_us,desc";
+    
+        fetch(imdbQueryUrl).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (data) {
+                    var array = data.results;
+                    console.log(data);
+                    for (let i = 0; i < 50; i++) {
+                        sleep(150);
+                        var media = array[i].id;
+                        getStreamAvailability(media)
+                    }
+                });
+            } else {
+                alert("Error: Title not found");
+            }
+        });
+    };
+    
+    getPopularIMDBMedia();
 });
 
 function cardMaker(title, streamLink, streamName) {
