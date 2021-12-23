@@ -4,6 +4,7 @@ const searchQuery = document.querySelector('#fixed-header-drawer-exp');
 var mediaGridEl = document.querySelector("#media-grid");
 var userSearchHistory = [];
 
+//This is a sleep function to prevent too many API requests due to Rate Limits
 function sleep(milliseconds) {
     const date = Date.now();
     let currentDate = null;
@@ -11,6 +12,20 @@ function sleep(milliseconds) {
         currentDate = Date.now();
     } while (currentDate - date < milliseconds);
 }
+
+//This function checks local storage to add values to Recent Searches
+var recentSearchHistory = function () {
+
+    if (localStorage.getItem("search term")) {
+        userSearchHistory = JSON.parse(localStorage.getItem("search term"));
+
+        for (var i = 0; i < userSearchHistory.length; i++) {
+            getIMDBMedia(userSearchHistory[i]);
+        };
+    }
+};
+
+recentSearchHistory();
 
 //Default list of shows from IMDB
 var getDefaultIMDBMedia = function () {
@@ -126,19 +141,6 @@ var getNytReviews = function (title) {
     });
 };
 
-var recentSearchHistory = function () {
-
-    if (localStorage.getItem("search term")) {
-        userSearchHistory = JSON.parse(localStorage.getItem("search term"));
-
-        for (var i = 0; i < userSearchHistory.length; i++) {
-            getIMDBMedia(userSearchHistory[i]);
-        };
-    }
-};
-
-recentSearchHistory();
-
 // Action to take when user has pressed Return, runs getIMDBMedia function on user searchTerms
 var searchTermHandler = function (keyword) {
     event.preventDefault();
@@ -185,6 +187,7 @@ navPopular.addEventListener("click", function () {
     alert("popular clicked");
 });
 
+// This function is used to build the media card within Search Results
 function cardMaker(title, banner, streamLink, streamName) {
 
     mediaGridEl.innerHTML += `
