@@ -160,29 +160,106 @@ searchQuery.addEventListener('keyup', function (event) {
     }
 });
 
-///
 // on click refresh homepage with default view
 var navHome = document.querySelector("#home");
 navHome.addEventListener("click", function () {
-    alert("home clicked");
+    event.preventDefault();
+    mediaGridEl.innerHTML = "";
+    
+    getDefaultIMDBMedia();    
 });
+
+var getMovieIMDBMedia = function () {
+    var imdbQueryUrl = "https://imdb-api.com/en/API/MostPopularMovies/" + imdbApiKey
+    
+    fetch(imdbQueryUrl).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (data) {
+                var array = data.items;
+                console.log(data);
+                for (let i = 0; i < 50; i++) {
+                    sleep(150);
+                    var media = array[i].id;
+                    getStreamAvailability(media)
+                }
+            });
+        } else {
+            alert("Error: Title not found");
+        }
+    });
+};
 
 // on click refresh homepage, display only movies
 var navMovies = document.querySelector("#movies");
 navMovies.addEventListener("click", function () {
-    alert("movies clicked");
+    event.preventDefault()
+
+    console.log("movieClicked");
+    mediaGridEl.innerHTML = "";
+    
+    getMovieIMDBMedia();
+    
 });
+
+var getTvShowIMDBMedia = function () {
+    var imdbQueryUrl = "https://imdb-api.com/en/API/MostPopularTVs/" + imdbApiKey;
+
+    fetch(imdbQueryUrl).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (data) {
+                var array = data.items;
+                console.log(data);
+                for (let i = 0; i < 50; i++) {
+                    sleep(150);
+                    var media = array[i].id;
+                    getStreamAvailability(media)
+                }
+            });
+        } else {
+            alert("Error: Title not found");
+        }
+    });
+};
 
 // on click refresh homepage, display only tv shows
 var navTvShows = document.querySelector("#tv-shows");
 navTvShows.addEventListener("click", function () {
-    alert("tv shows clicked");
+    event.preventDefault();
+
+    mediaGridEl.innerHTML = "";
+
+    getTvShowIMDBMedia();
+   
 });
+
+var getPopularIMDBMedia = function () {
+    var imdbQueryUrl = "https://imdb-api.com/API/AdvancedSearch/" + imdbApiKey + "?title_type=feature,tv_movie,tv_series,tv_episode,documentary&groups=top_100&countries=us&languages=en";
+
+    fetch(imdbQueryUrl).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (data) {
+                var array = data.results;
+                console.log(data);
+                for (let i = 0; i < 50; i++) {
+                    sleep(150);
+                    var media = array[i].id;
+                    getStreamAvailability(media)
+                }
+            });
+        } else {
+            alert("Error: Title not found");
+        }
+    });
+};
 
 // on click refresh page, display new and popular results
 var navPopular = document.querySelector("#popular");
+
 navPopular.addEventListener("click", function () {
-    alert("popular clicked");
+    event.preventDefault();
+
+    mediaGridEl.innerHTML = "";
+    getPopularIMDBMedia();
 });
 
 function cardMaker(title, banner, streamLink, streamName) {
