@@ -1,6 +1,10 @@
 const imdbApiKey = "k_8oixkc80";
 const searchQuery = document.querySelector('#fixed-header-drawer-exp');
 var mediaGridEl = document.querySelector("#media-grid");
+var navHome = document.querySelector("#home");
+var navMovies = document.querySelector("#movies");
+var navTvShows = document.querySelector("#tv-shows");
+var navTopRated = document.querySelector("#top-rated");
 var userSearchHistory = [];
 
 // Function to sleep to prevent 429 errors on API Calls
@@ -83,11 +87,7 @@ function getStreamAvailability(mediaId) {
                     var service = Object.values(streaming)[0];
                     var service2 = Object.values(service)[0];
                     var serviceLink = service2.link;
-                    console.log(serviceLink);
                     var serviceName = strmServiceTitle(serviceLink);
-                    console.log(serviceName);
-                    console.log(banner);
-                    console.log(title);
 
                     cardMaker(title, banner, serviceLink, serviceName);
 
@@ -116,42 +116,13 @@ var recentSearchHistory = function () {
     if (localStorage.getItem("search term")) {
         userSearchHistory = JSON.parse(localStorage.getItem("search term"));
 
-        for (var i = 0; i < userSearchHistory.length; i++) {
+        for (var i = 0; i < 5; i++) {
             getIMDBMedia(userSearchHistory[i]);
         };
     }
 };
 
 recentSearchHistory();
-
-// Action to take when user has pressed Return, runs getIMDBMedia function on user searchTerms
-var searchTermHandler = function (keyword) {
-    event.preventDefault();
-
-    userSearchHistory.push(keyword);
-    localStorage.setItem("search term", JSON.stringify(userSearchHistory));
-    mediaGridEl.innerHTML = "";
-    var results = getIMDBMedia(keyword);
-    console.log(results);
-}
-
-// listen for the user to press return to capture search term
-searchQuery.addEventListener('keyup', function (event) {
-
-    if (event.keyCode === 13) {
-        var searchTerms = this.value;
-        searchTermHandler(searchTerms);
-    }
-});
-
-// on click refresh homepage with default view
-var navHome = document.querySelector("#home");
-navHome.addEventListener("click", function () {
-    event.preventDefault();
-    mediaGridEl.innerHTML = "";
-    
-    getDefaultIMDBMedia();    
-});
 
 // Function to grab Most Popular Movies from IMDB
 var getMovieIMDBMedia = function () {
@@ -161,7 +132,6 @@ var getMovieIMDBMedia = function () {
         if (response.ok) {
             response.json().then(function (data) {
                 var array = data.items;
-                console.log(data);
                 for (let i = 0; i < 50; i++) {
                     sleep(150);
                     var media = array[i].id;
@@ -173,17 +143,6 @@ var getMovieIMDBMedia = function () {
         }
     });
 };
-
-// on click refresh homepage, display only movies
-var navMovies = document.querySelector("#movies");
-navMovies.addEventListener("click", function () {
-    event.preventDefault()
-    console.log("movieClicked");
-
-    mediaGridEl.innerHTML = "";
-    getMovieIMDBMedia();
-    
-});
 
 // Function to get Most Popular TV Shows from IMDB
 var getTvShowIMDBMedia = function () {
@@ -193,7 +152,6 @@ var getTvShowIMDBMedia = function () {
         if (response.ok) {
             response.json().then(function (data) {
                 var array = data.items;
-                console.log(data);
                 for (let i = 0; i < 50; i++) {
                     sleep(150);
                     var media = array[i].id;
@@ -205,15 +163,6 @@ var getTvShowIMDBMedia = function () {
         }
     });
 };
-
-// on click refresh homepage, display only tv shows
-var navTvShows = document.querySelector("#tv-shows");
-navTvShows.addEventListener("click", function () {
-    event.preventDefault();
-
-    mediaGridEl.innerHTML = "";
-    getTvShowIMDBMedia(); 
-});
 
 // Function to call top rated media on IMDB
 var getTopRatedIMDBMedia = function () {
@@ -223,7 +172,6 @@ var getTopRatedIMDBMedia = function () {
         if (response.ok) {
             response.json().then(function (data) {
                 var array = data.results;
-                console.log(data);
                 for (let i = 0; i < 50; i++) {
                     sleep(150);
                     var media = array[i].id;
@@ -235,16 +183,6 @@ var getTopRatedIMDBMedia = function () {
         }
     });
 };
-
-// on click refresh page, display new and popular results
-var navTopRated = document.querySelector("#top-rated");
-
-navTopRated.addEventListener("click", function () {
-    event.preventDefault();
-
-    mediaGridEl.innerHTML = "";
-    getTopRatedIMDBMedia();
-});
 
 // Function to create media cards per API Call
 function cardMaker(title, banner, streamLink, streamName) {
@@ -265,3 +203,55 @@ function cardMaker(title, banner, streamLink, streamName) {
   </div>
     `
 };
+
+// Action to take when user has pressed Return, runs getIMDBMedia function on user searchTerms
+var searchTermHandler = function (keyword) {
+    event.preventDefault();
+
+    userSearchHistory.push(keyword);
+    localStorage.setItem("search term", JSON.stringify(userSearchHistory));
+    mediaGridEl.innerHTML = "";
+    getIMDBMedia(keyword);
+}
+
+// listen for the user to press return to capture search term
+searchQuery.addEventListener('keyup', function (event) {
+
+    if (event.keyCode === 13) {
+        var searchTerms = this.value;
+        searchTermHandler(searchTerms);
+    }
+});
+
+// on click refresh homepage with default view
+navHome.addEventListener("click", function () {
+    event.preventDefault();
+
+    mediaGridEl.innerHTML = "";
+    getDefaultIMDBMedia();    
+});
+
+// on click refresh homepage, display only movies
+navMovies.addEventListener("click", function () {
+    event.preventDefault()
+    console.log("movieClicked");
+
+    mediaGridEl.innerHTML = "";
+    getMovieIMDBMedia();
+});
+
+// on click refresh homepage, display only tv shows
+navTvShows.addEventListener("click", function () {
+    event.preventDefault();
+
+    mediaGridEl.innerHTML = "";
+    getTvShowIMDBMedia(); 
+});
+
+// on click refresh page, display new and popular results
+navTopRated.addEventListener("click", function () {
+    event.preventDefault();
+
+    mediaGridEl.innerHTML = "";
+    getTopRatedIMDBMedia();
+});
