@@ -110,6 +110,7 @@ function strmServiceTitle(str) {
     return title[1];
 }
 
+// Function to check Local Storage for any recent user searches and add to array
 var recentSearchHistory = function () {
 
     if (localStorage.getItem("search term")) {
@@ -152,6 +153,7 @@ navHome.addEventListener("click", function () {
     getDefaultIMDBMedia();    
 });
 
+// Function to grab Most Popular Movies from IMDB
 var getMovieIMDBMedia = function () {
     var imdbQueryUrl = "https://imdb-api.com/en/API/MostPopularMovies/" + imdbApiKey
     
@@ -183,6 +185,7 @@ navMovies.addEventListener("click", function () {
     
 });
 
+// Function to get Most Popular TV Shows from IMDB
 var getTvShowIMDBMedia = function () {
     var imdbQueryUrl = "https://imdb-api.com/en/API/MostPopularTVs/" + imdbApiKey;
 
@@ -212,6 +215,7 @@ navTvShows.addEventListener("click", function () {
     getTvShowIMDBMedia(); 
 });
 
+// Function to call top rated media on IMDB
 var getTopRatedIMDBMedia = function () {
     var imdbQueryUrl = "https://imdb-api.com/API/AdvancedSearch/" + imdbApiKey + "?title_type=feature,tv_movie,tv_series,tv_episode,documentary&groups=top_100&countries=us&languages=en";
 
@@ -242,6 +246,7 @@ navTopRated.addEventListener("click", function () {
     getTopRatedIMDBMedia();
 });
 
+// Function to create media cards per API Call
 function cardMaker(title, banner, streamLink, streamName) {
 
     mediaGridEl.innerHTML += `
@@ -253,7 +258,7 @@ function cardMaker(title, banner, streamLink, streamName) {
       <img src="${banner}" width="100%" alt="">
     </div>
     <div class="mdl-card__actions mdl-card--border">
-      <a href="${streamLink}" class="card-button mdl-button mdl-js-button mdl-js-ripple-effect">
+      <a href="${streamLink}" target="_blank" class="card-button mdl-button mdl-js-button mdl-js-ripple-effect">
         ${streamName}
       </a>
     </div>
