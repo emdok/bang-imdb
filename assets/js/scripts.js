@@ -236,6 +236,7 @@ var searchTermHandler = function (keyword) {
 
 // listen for the user to press return to capture search term
 searchQuery.addEventListener('keyup', function (event) {
+    event.preventDefault();
 
     if (event.keyCode === 13) {
         var searchTerms = this.value;
