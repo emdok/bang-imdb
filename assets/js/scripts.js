@@ -13,20 +13,6 @@ function sleep(milliseconds) {
     } while (currentDate - date < milliseconds);
 }
 
-//This function checks local storage to add values to Recent Searches
-var recentSearchHistory = function () {
-
-    if (localStorage.getItem("search term")) {
-        userSearchHistory = JSON.parse(localStorage.getItem("search term"));
-
-        for (var i = 0; i < userSearchHistory.length; i++) {
-            getIMDBMedia(userSearchHistory[i]);
-        };
-    }
-};
-
-recentSearchHistory();
-
 //Default list of shows from IMDB
 var getDefaultIMDBMedia = function () {
     var imdbQueryUrl = "https://imdb-api.com/API/AdvancedSearch/" + imdbApiKey + "?title_type=feature,tv_series&countries=us&languages=en&sort=boxoffice_gross_us,desc";
@@ -73,6 +59,20 @@ var getIMDBMedia = function (title) {
         console.error('error in imdb media fetch: ', err);
     });
 };
+
+//This function checks local storage to add values to Recent Searches
+var recentSearchHistory = function () {
+
+    if (localStorage.getItem("search term")) {
+        userSearchHistory = JSON.parse(localStorage.getItem("search term"));
+
+        for (var i = 0; i < userSearchHistory.length; i++) {
+            getIMDBMedia(userSearchHistory[i]);
+        };
+    }
+};
+
+recentSearchHistory();
 
 
 //Function to use IMDB ID to locate Streaming Services
@@ -193,7 +193,7 @@ function cardMaker(title, banner, streamLink, streamName) {
     mediaGridEl.innerHTML += `
     <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col">
     <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">${title}</h2>
+      <h2 class="mdl-card__subtitle-text">${title}</h2>
     </div>
     <div class="mdl-card__media">
       <img src="${banner}" width="100%" alt="">
