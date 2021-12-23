@@ -1,23 +1,19 @@
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Material Lite CSS-->
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css" />
-    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <!-- Fonts & Icons -->
-    <script src="https://kit.fontawesome.com/0af195136d.js" crossorigin="anonymous"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
     
-    <title>StreamView</title>
-</head>
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+<title>Stream View</title>
+  </head>
+
 <body>
-  <!-- Page Container -->
-  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+<!-- Page Container --> 
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
     <!-- Header -->
     <header class="mdl-layout__header">
       <div class="mdl-layout__header-row">
@@ -38,13 +34,13 @@
         
       </div>
     </header>
-    
+       
     <!-- SideBar Navigation -->
     <div class="mdl-layout__drawer">
       <!-- SVG Logo -->
-      <div class="mdl-grid mdl-grid-logo">
+      <div class="mdl-grid__logo mdl-grid-logo">
         <div class="mdl-layout-spacer"></div>
-        <div class="mdl-cell ">
+        <div class="mdl-cell__logo">
           <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
           viewBox="0 0 1080 1080" class="wh-12" xml:space="preserve">
           <style type="text/css">
@@ -76,18 +72,114 @@
         <div class="mdl-layout-spacer"></div>
       </div>
       <nav class="mdl-navigation">
+
         <a class="mdl-navigation__link" id="home" href="">HOME</a>
         <a class="mdl-navigation__link" id= "movies" href="">MOVIES</a>
         <a class="mdl-navigation__link" id= "tv-shows" href="">TV SHOWS</a>
         <a class="mdl-navigation__link" id = "popular" href="">POPULAR</a>
+
       </nav>
-    </div>
+    </div> 
+
 
     <!-- Main Page -->
-    <main class="mdl-layout__content">
+<main class="mdl-layout__content">
 
-    </main>
-  </div> 
-  <script src="assets/js/scripts.js"></script>
+<div class="searchResults">
+    <h3>Search Results</h3>        
+      </div>
+
+<div class="mdl-grid__search">   
+    <div class="mdl-cell mdl-cell--1-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        View More
+      </button>
+    </div>
+    <div class="mdl-cell mdl-cell--1-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        View More
+      </button>
+    </div>
+    <div class="mdl-cell mdl-cell--1-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        View More
+      </button>
+    </div>
+    <div class="mdl-cell mdl-cell--1-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        View More
+      </button>
+    </div>
+    <div class="mdl-cell mdl-cell--1-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        View More
+      </button>
+    </div>
+    <div class="mdl-cell mdl-cell--1-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        View More
+      </button>
+    </div>
+    <div class="mdl-cell mdl-cell--1-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        View More
+      </button>
+    </div>
+    <div class="mdl-cell mdl-cell--1-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        View More
+      </button>
+    </div>
+</div>  
+
+<div class="recentSearch">
+    <h3>Recent Searches</h3>
+</div>
+
+<div class="mdl-grid__recent">
+    <div class="mdl-cell mdl-cell--1-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        View More
+      </button>
+    </div>
+    <div class="mdl-cell mdl-cell--1-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+      View More
+    </button>
+  </div>
+    <div class="mdl-cell mdl-cell--1-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        View More
+      </button>
+    </div>
+    <div class="mdl-cell mdl-cell--1-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        View More
+      </button>
+    </div>
+    <div class="mdl-cell mdl-cell--1-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        View More
+      </button>
+    </div>
+    <div class="mdl-cell mdl-cell--1-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        View More
+      </button>
+    </div>
+    <div class="mdl-cell mdl-cell--1-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        View More
+      </button>
+    </div>
+    <div class="mdl-cell mdl-cell--1-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        View More
+      </button>
+    </div>
+  </div>
+
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>       
+</main>
 </body>
 </html>
