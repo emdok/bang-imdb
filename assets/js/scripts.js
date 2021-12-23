@@ -2,6 +2,7 @@ const imdbApiKey = "k_8oixkc80";
 const nytReviewsApiKey = "1CtMayWncOQbFJuoqvGVAcHGbcd644Hj";
 const searchQuery = document.querySelector('#fixed-header-drawer-exp');
 var mediaGridEl = document.querySelector("#media-grid");
+var userSearchHistory = [];
 
 function sleep(milliseconds) {
     const date = Date.now();
@@ -44,7 +45,6 @@ var getIMDBMedia = function (title) {
                 var array = data.results;
                 console.log(array);
                 for (let i = 0; i < 5; i++) {
-                    debugger;
                     getStreamAvailability(array[i].id).catch(err => {
                         console.log('error in getIMDBMedia is: ', err)
                     })
@@ -62,7 +62,6 @@ var getIMDBMedia = function (title) {
 
 //Function to use IMDB ID to locate Streaming Services
 function getStreamAvailability(mediaId) {
-    var streamingArray = [];
 
     try {
         fetch("https://streaming-availability.p.rapidapi.com/get/ultra?imdb_id=" + mediaId + "&output_language=en", {
@@ -119,8 +118,27 @@ var getNytReviews = function (title) {
     });
 };
 
+var recentSearchHistory = function () {
+
+    if (localStorage.getItem("search term")) {
+        userSearchHistory = JSON.parse(localStorage.getItem("search term"));
+
+        for (var i = 0; i < userSearchHistory.length; i++) {
+                getIMDBMedia(userSearchHistory[i]);
+        };
+    }
+};
+
+recentSearchHistory();
+
 // Action to take when user has pressed Return, runs getIMDBMedia function on user searchTerms
 var searchTermHandler = function (keyword) {
+    event.preventDefault();
+
+    userSearchHistory.push(keyword);
+    localStorage.setItem("search term", JSON.stringify(userSearchHistory));
+    recentSearchHistory();
+
     mediaGridEl.innerHTML = "";
     var results = getIMDBMedia(keyword);
     console.log(results);
@@ -129,9 +147,9 @@ var searchTermHandler = function (keyword) {
 
 // listen for the user to press return to capture search term
 searchQuery.addEventListener('keyup', function (event) {
+
     if (event.keyCode === 13) {
         var searchTerms = this.value;
-        
         searchTermHandler(searchTerms);
     }
 });
