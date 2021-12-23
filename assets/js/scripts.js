@@ -1,5 +1,4 @@
 const imdbApiKey = "k_8oixkc80";
-const nytReviewsApiKey = "1CtMayWncOQbFJuoqvGVAcHGbcd644Hj";
 const searchQuery = document.querySelector('#fixed-header-drawer-exp');
 var mediaGridEl = document.querySelector("#media-grid");
 var navHome = document.querySelector("#home");
@@ -57,7 +56,6 @@ var getIMDBMedia = function (title) {
                         console.log('error in getIMDBMedia is: ', err)
                     })
                 }
-                getNytReviews(title);
             });
         } else {
             alert("Error: Title not found");
@@ -118,21 +116,6 @@ function strmServiceTitle(str) {
     var title = str.split('.');
     return title[1];
 }
-
-// API Call to NYTimes Reviews
-var getNytReviews = function (title) {
-    var nytReviewQueryUrl = "https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=" + title + "&api-key=" + nytReviewsApiKey;
-
-    fetch(nytReviewQueryUrl).then(function (response) {
-        if (response.ok) {
-            response.json().then(function (data) {
-                console.log(data);
-            });
-        } else {
-            console.log("Error: Review not found");
-        }
-    });
-};
 
 // Function to check local storage for previous searches
 var recentSearchHistory = function () {
