@@ -81,7 +81,6 @@ h3 {
   margin: auto;
   border: 5px solid lightgray;
   height: 100%;
-  width: 100%;
   display: inline-grid;
 }
 
@@ -89,10 +88,14 @@ h3 {
   margin-top: auto;
 }
 
-.demo-card-square.mdl-card {
-  width: 320px;
-  height: 320px;
+.cell-width-100 {
+  width: 100%;
 }
-.demo-card-square > .mdl-card__title {
 
+.mdl-grid {
+  height: 80vh;
+}
+
+.h4 {
+  margin: auto;
 }
