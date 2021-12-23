@@ -114,3 +114,20 @@ var navPopular = document.querySelector("#popular");
 navPopular.addEventListener("click", function() {
     alert("popular clicked");
 });
+
+// create a card based on Material lite formatting
+// populate card with banner and streaming services
+// append cards to page
+// create a for loop to continue creating cards
+// pass function into API calls for search and filters
+
+var cardMaker = function() {
+    
+  var listCards = document.querySelector("#media-cards");
+    var createCardEl = document.createElement("div");
+    createCardEl.className = "demo-card-square mdl-card mdl-shadow--2dp";
+    
+    createCardEl.appendChild(listCards);
+
+};
+cardMaker();
