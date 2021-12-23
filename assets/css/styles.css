@@ -18,6 +18,11 @@
   color: var(--secondary-color);
 }
 
+.inline-icon {
+    vertical-align: bottom;
+    font-size: 20px !important;
+ }
+
 .mdl-layout__drawer {
   background-color: var(--primary-color);
 
@@ -28,12 +33,27 @@
 
 }
 
+.mdl-textfield--floating-label.is-focused .mdl-textfield__label,
+.mdl-textfield--floating-label.is-dirty .mdl-textfield__label,
+.mdl-textfield--floating-label.has-placeholder .mdl-textfield__label{
+    color: var(--secondary-color);
+}
+
+.mdl-textfield__label:after {
+  background-color: var(--secondary-color);
+}
+
+
 .mdl-grid-logo {
   margin: 20px 30px 0px 100px;
 }
 
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
   color: white;
+}
+
+.mdl-navigation .active {
+    background-color: var(--secondary-color); 
 }
 
 @media screen and (max-width:1024px){
