@@ -87,16 +87,18 @@ function getStreamAvailability(mediaId) {
                     var banner = "https://image.tmdb.org/t/p/w500/" + data.posterPath;
                     var title = data.title;
                     var streaming = data.streamingInfo;
-                    var service = Object.values(streaming)[0];
-                    var service2 = Object.values(service)[0];
-                    var serviceLink = service2.link;
-                    console.log(serviceLink);
-                    var serviceName = strmServiceTitle(serviceLink);
-                    console.log(serviceName);
-                    console.log(banner);
-                    console.log(title);
 
-                    cardMaker(title, banner, serviceLink, serviceName);
+                    var serviceOne = Object.values(streaming)[0];
+                    var serviceOneA = Object.values(serviceOne)[0];
+                    var serviceLinkOne = serviceOneA.link;
+                    var serviceNameOne = strmServiceTitle(serviceLinkOne);
+
+                    var serviceTwo = Object.values(streaming)[1];
+                    var serviceOneB = Object.values(serviceTwo)[1];
+                    var serviceLinkTwo = serviceOneB.link;
+                    var serviceNameTwo = strmServiceTitle(serviceLinkTwo);
+
+                    cardMaker(title, banner, serviceLinkOne, serviceNameOne, serviceLinkTwo, serviceNameTwo);
 
                 }).catch(err => {
                     console.error('error in .json: ', err)
@@ -195,7 +197,7 @@ var getPopularIMDBMedia = function () {
 };
 
 // Function to build out media cards for each piece of media
-function cardMaker(title, banner, streamLink, streamName) {
+function cardMaker(title, banner, streamLink, streamName, streamLink2, streamName2) {
 
     mediaGridEl.innerHTML += `
     <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
@@ -206,9 +208,12 @@ function cardMaker(title, banner, streamLink, streamName) {
       <img src="${banner}" width="100%" alt="">
     </div>
     <div class="mdl-card__actions mdl-card--border">
-      <a href="${streamLink}" class="card-button mdl-button mdl-js-button mdl-js-ripple-effect">
+      <a href="${streamLink}" target="_blank" class="card-button mdl-button mdl-js-button mdl-js-ripple-effect">
         ${streamName}
       </a>
+      <a href="${streamLink2}" target="_blank" class="card-button mdl-button mdl-js-button mdl-js-ripple-effect">
+      ${streamName2}
+    </a>
     </div>
   </div>
     `
@@ -241,8 +246,8 @@ searchQuery.addEventListener('keyup', function (event) {
 // on click refresh homepage with default view
 navHome.addEventListener("click", function () {
     event.preventDefault();
-    mediaGridEl.innerHTML = "";
 
+    mediaGridEl.innerHTML = "";
     getDefaultIMDBMedia();
 });
 
@@ -250,9 +255,7 @@ navHome.addEventListener("click", function () {
 navMovies.addEventListener("click", function () {
     event.preventDefault()
 
-    console.log("movieClicked");
     mediaGridEl.innerHTML = "";
-
     getMovieIMDBMedia();
 
 });
@@ -262,7 +265,6 @@ navTvShows.addEventListener("click", function () {
     event.preventDefault();
 
     mediaGridEl.innerHTML = "";
-
     getTvShowIMDBMedia();
 
 });
