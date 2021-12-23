@@ -2,8 +2,16 @@ const imdbApiKey = "k_8oixkc80";
 const nytReviewsApiKey = "1CtMayWncOQbFJuoqvGVAcHGbcd644Hj";
 const searchQuery = document.querySelector('#fixed-header-drawer-exp');
 var mediaGridEl = document.querySelector("#media-grid");
+var navHome = document.querySelector("#home");
+var navMovies = document.querySelector("#movies");
+var navTvShows = document.querySelector("#tv-shows");
+var navPopular = document.querySelector("#popular");
 var userSearchHistory = [];
 
+
+/**** Functions ****/
+
+// Sleep function to prevent 429 errors on API Calls
 function sleep(milliseconds) {
     const date = Date.now();
     let currentDate = null;
@@ -126,6 +134,7 @@ var getNytReviews = function (title) {
     });
 };
 
+// Function to check local storage for previous searches
 var recentSearchHistory = function () {
 
     if (localStorage.getItem("search term")) {
@@ -138,6 +147,92 @@ var recentSearchHistory = function () {
 };
 
 recentSearchHistory();
+
+// Function to grab Most Popular movies for Movie Quick Filter
+var getMovieIMDBMedia = function () {
+    var imdbQueryUrl = "https://imdb-api.com/en/API/MostPopularMovies/" + imdbApiKey
+
+    fetch(imdbQueryUrl).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (data) {
+                var array = data.items;
+                console.log(data);
+                for (let i = 0; i < 50; i++) {
+                    sleep(150);
+                    var media = array[i].id;
+                    getStreamAvailability(media)
+                }
+            });
+        } else {
+            alert("Error: Title not found");
+        }
+    });
+};
+
+// Function to grab Most popular Tv Shows for TV QuickFilter
+var getTvShowIMDBMedia = function () {
+    var imdbQueryUrl = "https://imdb-api.com/en/API/MostPopularTVs/" + imdbApiKey;
+
+    fetch(imdbQueryUrl).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (data) {
+                var array = data.items;
+                console.log(data);
+                for (let i = 0; i < 50; i++) {
+                    sleep(150);
+                    var media = array[i].id;
+                    getStreamAvailability(media)
+                }
+            });
+        } else {
+            alert("Error: Title not found");
+        }
+    });
+};
+
+// Function to grab Most Popular Movies and TV Shows for Popular Quick filter
+var getPopularIMDBMedia = function () {
+    var imdbQueryUrl = "https://imdb-api.com/API/AdvancedSearch/" + imdbApiKey + "?title_type=feature,tv_movie,tv_series,tv_episode,documentary&groups=top_100&countries=us&languages=en";
+
+    fetch(imdbQueryUrl).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (data) {
+                var array = data.results;
+                console.log(data);
+                for (let i = 0; i < 50; i++) {
+                    sleep(150);
+                    var media = array[i].id;
+                    getStreamAvailability(media)
+                }
+            });
+        } else {
+            alert("Error: Title not found");
+        }
+    });
+};
+
+// Function to build out media cards for each piece of media
+function cardMaker(title, banner, streamLink, streamName) {
+
+    mediaGridEl.innerHTML += `
+    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__subtitle-text truncate">${title}</h2>
+    </div>
+    <div class="mdl-card__media">
+      <img src="${banner}" width="100%" alt="">
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <a href="${streamLink}" class="card-button mdl-button mdl-js-button mdl-js-ripple-effect">
+        ${streamName}
+      </a>
+    </div>
+  </div>
+    `
+};
+
+
+/***** Event Listeners & Event Handlers *****/
 
 // Action to take when user has pressed Return, runs getIMDBMedia function on user searchTerms
 var searchTermHandler = function (keyword) {
@@ -161,100 +256,35 @@ searchQuery.addEventListener('keyup', function (event) {
 });
 
 // on click refresh homepage with default view
-var navHome = document.querySelector("#home");
 navHome.addEventListener("click", function () {
     event.preventDefault();
     mediaGridEl.innerHTML = "";
-    
-    getDefaultIMDBMedia();    
+
+    getDefaultIMDBMedia();
 });
 
-var getMovieIMDBMedia = function () {
-    var imdbQueryUrl = "https://imdb-api.com/en/API/MostPopularMovies/" + imdbApiKey
-    
-    fetch(imdbQueryUrl).then(function (response) {
-        if (response.ok) {
-            response.json().then(function (data) {
-                var array = data.items;
-                console.log(data);
-                for (let i = 0; i < 50; i++) {
-                    sleep(150);
-                    var media = array[i].id;
-                    getStreamAvailability(media)
-                }
-            });
-        } else {
-            alert("Error: Title not found");
-        }
-    });
-};
-
 // on click refresh homepage, display only movies
-var navMovies = document.querySelector("#movies");
 navMovies.addEventListener("click", function () {
     event.preventDefault()
 
     console.log("movieClicked");
     mediaGridEl.innerHTML = "";
-    
+
     getMovieIMDBMedia();
-    
+
 });
 
-var getTvShowIMDBMedia = function () {
-    var imdbQueryUrl = "https://imdb-api.com/en/API/MostPopularTVs/" + imdbApiKey;
-
-    fetch(imdbQueryUrl).then(function (response) {
-        if (response.ok) {
-            response.json().then(function (data) {
-                var array = data.items;
-                console.log(data);
-                for (let i = 0; i < 50; i++) {
-                    sleep(150);
-                    var media = array[i].id;
-                    getStreamAvailability(media)
-                }
-            });
-        } else {
-            alert("Error: Title not found");
-        }
-    });
-};
-
 // on click refresh homepage, display only tv shows
-var navTvShows = document.querySelector("#tv-shows");
 navTvShows.addEventListener("click", function () {
     event.preventDefault();
 
     mediaGridEl.innerHTML = "";
 
     getTvShowIMDBMedia();
-   
+
 });
 
-var getPopularIMDBMedia = function () {
-    var imdbQueryUrl = "https://imdb-api.com/API/AdvancedSearch/" + imdbApiKey + "?title_type=feature,tv_movie,tv_series,tv_episode,documentary&groups=top_100&countries=us&languages=en";
-
-    fetch(imdbQueryUrl).then(function (response) {
-        if (response.ok) {
-            response.json().then(function (data) {
-                var array = data.results;
-                console.log(data);
-                for (let i = 0; i < 50; i++) {
-                    sleep(150);
-                    var media = array[i].id;
-                    getStreamAvailability(media)
-                }
-            });
-        } else {
-            alert("Error: Title not found");
-        }
-    });
-};
-
 // on click refresh page, display new and popular results
-var navPopular = document.querySelector("#popular");
-
 navPopular.addEventListener("click", function () {
     event.preventDefault();
 
@@ -262,21 +292,3 @@ navPopular.addEventListener("click", function () {
     getPopularIMDBMedia();
 });
 
-function cardMaker(title, banner, streamLink, streamName) {
-
-    mediaGridEl.innerHTML += `
-    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-    <div class="mdl-card__title">
-      <h2 class="mdl-card__subtitle-text truncate">${title}</h2>
-    </div>
-    <div class="mdl-card__media">
-      <img src="${banner}" width="100%" alt="">
-    </div>
-    <div class="mdl-card__actions mdl-card--border">
-      <a href="${streamLink}" class="card-button mdl-button mdl-js-button mdl-js-ripple-effect">
-        ${streamName}
-      </a>
-    </div>
-  </div>
-    `
-};
