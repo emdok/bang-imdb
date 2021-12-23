@@ -83,19 +83,32 @@
     <!-- Main Page -->
     <main class="mdl-layout__content">
 
-      <div class="searchResults">
-        <h3>Search Results</h3>
-      </div>
-
-      <div class="mdl-grid__search" id="media-grid">   
-
-      </div> 
+      <div class="mdl-grid">
+        <div class="mdl-card__title">
+          <span class="mdl-card__title-text">Search Results:</span>
+        </div>
+      </div>  
+      <div id="media-grid" class="mdl-grid">
+        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col">
+          <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">title</h2>
+          </div>
+          <div class="mdl-card__media">
+            <img src="https://image.tmdb.org/t/p/w500//hCcndEHrNcfkDGcGgqcVGBgcBCA.jpg"  width="100%" alt="">
+          </div>
+          <div class="mdl-card__actions mdl-card--border">
+            <a href="${streamLink}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+              ${streamName}
+            </a>
+          </div>
+        </div> 
+      </div>  
 
       
 
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>       
 </main>
-<script src="assets/js/scripts.js"></script>
+<!-- <script src="assets/js/scripts.js"></script> -->
 </body>
 
 </html>
