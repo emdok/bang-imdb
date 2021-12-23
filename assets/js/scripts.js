@@ -145,3 +145,4 @@ navTvShows.addEventListener("click", function () {
 var navPopular = document.querySelector("#popular");
 navPopular.addEventListener("click", function () {
     alert("popular clicked");
+});
