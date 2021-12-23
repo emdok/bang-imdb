@@ -1,7 +1,8 @@
 const imdbApiKey = "k_8oixkc80";
 const nytReviewsApiKey = "1CtMayWncOQbFJuoqvGVAcHGbcd644Hj";
 const searchQuery = document.querySelector('#fixed-header-drawer-exp');
-
+var mediaGridEl = document.querySelector("#media-grid");
+var userSearchHistory = [];
 
 function sleep(milliseconds) {
     const date = Date.now();
@@ -21,7 +22,7 @@ var getDefaultIMDBMedia = function () {
                 var array = data.results;
                 console.log(data);
                 for (let i = 0; i < 50; i++) {
-                    sleep(250);
+                    sleep(150);
                     var media = array[i].id;
                     getStreamAvailability(media)
                 }
@@ -61,7 +62,6 @@ var getIMDBMedia = function (title) {
 
 //Function to use IMDB ID to locate Streaming Services
 function getStreamAvailability(mediaId) {
-    var streamingArray = [];
 
     try {
         fetch("https://streaming-availability.p.rapidapi.com/get/ultra?imdb_id=" + mediaId + "&output_language=en", {
@@ -77,7 +77,18 @@ function getStreamAvailability(mediaId) {
 
                 response.json().then(function (data) {
                     console.log("streamAvail:", data);
-                    streamingArray.push(data);
+
+                    var banner = "https://image.tmdb.org/t/p/w500/" + data.posterPath;
+                    var title = data.title;
+                    var streaming = data.streamingInfo;
+                    var service = Object.values(streaming)[0];
+                    var service2 = Object.values(service)[0];
+                    var serviceLink = service2.link;
+                    console.log(serviceLink);
+                    console.log(banner);
+                    console.log(title);
+
+                    cardMaker(title, serviceLink);
 
                 }).catch(err => {
                     console.error('error in .json: ', err)
@@ -107,8 +118,28 @@ var getNytReviews = function (title) {
     });
 };
 
+var recentSearchHistory = function () {
+
+    if (localStorage.getItem("search term")) {
+        userSearchHistory = JSON.parse(localStorage.getItem("search term"));
+
+        for (var i = 0; i < userSearchHistory.length; i++) {
+                getIMDBMedia(userSearchHistory[i]);
+        };
+    }
+};
+
+recentSearchHistory();
+
 // Action to take when user has pressed Return, runs getIMDBMedia function on user searchTerms
 var searchTermHandler = function (keyword) {
+    event.preventDefault();
+
+    userSearchHistory.push(keyword);
+    localStorage.setItem("search term", JSON.stringify(userSearchHistory));
+    recentSearchHistory();
+
+    mediaGridEl.innerHTML = "";
     var results = getIMDBMedia(keyword);
     console.log(results);
 
@@ -116,6 +147,7 @@ var searchTermHandler = function (keyword) {
 
 // listen for the user to press return to capture search term
 searchQuery.addEventListener('keyup', function (event) {
+
     if (event.keyCode === 13) {
         var searchTerms = this.value;
         searchTermHandler(searchTerms);
@@ -146,3 +178,19 @@ var navPopular = document.querySelector("#popular");
 navPopular.addEventListener("click", function () {
     alert("popular clicked");
 });
+
+function cardMaker(title, stream) {
+    
+    mediaGridEl.innerHTML += `
+    <div class="demo-card-square mdl-card mdl-shadow--2dp">
+    <div class="mdl-card__title mdl-card--expand">
+      <h2 class="mdl-card__title-text">${title}</h2>
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+        ${stream}
+      </a>
+    </div>
+  </div>
+    `
+};
