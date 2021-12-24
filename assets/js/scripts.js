@@ -1,5 +1,7 @@
 const imdbApiKey = "k_8oixkc80";
 const searchQuery = document.querySelector('#fixed-header-drawer-exp');
+var mainEl = document.querySelector("main");
+var recentSearchEl = document.querySelector("#recent-search");
 var mediaGridEl = document.querySelector("#media-grid");
 var navHome = document.querySelector("#home");
 var navMovies = document.querySelector("#movies");
@@ -114,11 +116,75 @@ function strmServiceTitle(str) {
 var recentSearchHistory = function () {
 
     if (localStorage.getItem("search term")) {
+       document.querySelector("#recent-search-container").style.display = "block";
         userSearchHistory = JSON.parse(localStorage.getItem("search term"));
 
         for (var i = 0; i < 5; i++) {
-            getIMDBMedia(userSearchHistory[i]);
+            getRecentIMDB(userSearchHistory[i]);  
         };
+
+        function getRecentIMDB(title) {
+            var imdbQueryUrl = "https://imdb-api.com/en/API/SearchAll/" + imdbApiKey + "/" + title;
+
+            fetch(imdbQueryUrl).then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (data) {
+                        var array = data.results;
+                        console.log(array);
+
+                        for (let i = 0; i < 5; i++) {
+                            getRecentStream(array[i].id).catch(err => {
+                                console.log('error in getIMDBMedia is: ', err)
+                            })
+                        }
+                    });
+                } else {
+                    alert("Error: Title not found");
+                }
+            }).catch(err => {
+                console.error('error in imdb media fetch: ', err);
+            });
+        }
+
+        function getRecentStream(mediaId) {
+
+            try {
+                fetch("https://streaming-availability.p.rapidapi.com/get/ultra?imdb_id=" + mediaId + "&output_language=en", {
+                    "method": "GET",
+                    "headers": {
+                        "x-rapidapi-host": "streaming-availability.p.rapidapi.com",
+                        "x-rapidapi-key": "d9ad7c19d0msh5e66719b7acc4f6p117731jsn3cd820ad1e3b"
+                    }
+                }).then(function (response) {
+                    if (response.status === 404) {
+                        console.log('sorry this movie isn\'t availible');
+                    } else {
+        
+                        response.json().then(function (data) {
+                            console.log("streamAvail:", data);
+        
+                            var banner = "https://image.tmdb.org/t/p/w500/" + data.posterPath;
+                            var title = data.title;
+                            var streaming = data.streamingInfo;
+                            var service = Object.values(streaming)[0];
+                            var service2 = Object.values(service)[0];
+                            var serviceLink = service2.link;
+                            var serviceName = strmServiceTitle(serviceLink);
+
+                            recentSearchMaker(title, banner, serviceLink, serviceName);
+        
+                        }).catch(err => {
+                            console.error('error in .json: ', err)
+                        })
+                    }
+                })
+                    .catch(err => {
+                        console.error('error in fetchL ', err);
+                    });
+            } catch (err) {
+                console.log('error in catch block', err)
+            }
+        }
     }
 };
 
@@ -127,7 +193,7 @@ recentSearchHistory();
 // Function to grab Most Popular Movies from IMDB
 var getMovieIMDBMedia = function () {
     var imdbQueryUrl = "https://imdb-api.com/en/API/MostPopularMovies/" + imdbApiKey
-    
+
     fetch(imdbQueryUrl).then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
@@ -204,9 +270,27 @@ function cardMaker(title, banner, streamLink, streamName) {
     `
 };
 
+function recentSearchMaker(title, banner, streamLink, streamName) {
+    recentSearchEl.innerHTML += `
+    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-card__title">
+            <h2 class="mdl-card__subtitle-text truncate">${title}</h2>
+         </div>
+         <div class="mdl-card__media">
+             <img src="${banner}" width="100%" alt="">
+        </div>
+         <div class="mdl-card__actions mdl-card--border">
+             <a href="${streamLink}" target="_blank" class="card-button mdl-button mdl-js-button mdl-js-ripple-effect">${streamName}</a>
+        </div>
+    </div>
+    `
+};
+
 // Action to take when user has pressed Return, runs getIMDBMedia function on user searchTerms
 var searchTermHandler = function (keyword) {
     event.preventDefault();
+
+    document.querySelector("#recent-search-container").style.display = "none";
 
     userSearchHistory.push(keyword);
     localStorage.setItem("search term", JSON.stringify(userSearchHistory));
@@ -227,8 +311,9 @@ searchQuery.addEventListener('keyup', function (event) {
 navHome.addEventListener("click", function () {
     event.preventDefault();
 
+    document.querySelector("#recent-search-container").style.display = "none";
     mediaGridEl.innerHTML = "";
-    getDefaultIMDBMedia();    
+    getDefaultIMDBMedia();
 });
 
 // on click refresh homepage, display only movies
@@ -236,6 +321,7 @@ navMovies.addEventListener("click", function () {
     event.preventDefault()
     console.log("movieClicked");
 
+    document.querySelector("#recent-search-container").style.display = "none";
     mediaGridEl.innerHTML = "";
     getMovieIMDBMedia();
 });
@@ -244,14 +330,16 @@ navMovies.addEventListener("click", function () {
 navTvShows.addEventListener("click", function () {
     event.preventDefault();
 
+    document.querySelector("#recent-search-container").style.display = "none";
     mediaGridEl.innerHTML = "";
-    getTvShowIMDBMedia(); 
+    getTvShowIMDBMedia();
 });
 
 // on click refresh page, display new and popular results
 navTopRated.addEventListener("click", function () {
     event.preventDefault();
 
+    document.querySelector("#recent-search-container").style.display = "none";
     mediaGridEl.innerHTML = "";
     getTopRatedIMDBMedia();
 });
