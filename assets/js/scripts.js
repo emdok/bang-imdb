@@ -24,13 +24,12 @@ var getDefaultIMDBMedia = function () {
 
     fetch(imdbQueryUrl).then(function (response) {
         if (response.ok) {
-            response.json().then(function (data) {
+            response.json().then(async function (data) {
                 var array = data.results;
                 console.log(data);
                 for (let i = 0; i < 50; i++) {
-                    sleep(150);
                     var media = array[i].id;
-                    getStreamAvailability(media)
+                    await getStreamAvailability(media)
                 }
             });
         } else {
@@ -47,11 +46,11 @@ var getIMDBMedia = function (title) {
 
     fetch(imdbQueryUrl).then(function (response) {
         if (response.ok) {
-            response.json().then(function (data) {
+            response.json().then(async function (data) {
                 var array = data.results;
                 console.log(array);
                 for (let i = 0; i < 5; i++) {
-                    getStreamAvailability(array[i].id).catch(err => {
+                    await getStreamAvailability(array[i].id).catch(err => {
                         console.log('error in getIMDBMedia is: ', err)
                     })
                 }
@@ -66,10 +65,10 @@ var getIMDBMedia = function (title) {
 
 
 //Function to use IMDB ID to locate Streaming Services
-function getStreamAvailability(mediaId) {
+async function getStreamAvailability(mediaId) {
 
     try {
-        fetch("https://streaming-availability.p.rapidapi.com/get/ultra?imdb_id=" + mediaId + "&output_language=en", {
+        await fetch("https://streaming-availability.p.rapidapi.com/get/ultra?imdb_id=" + mediaId + "&output_language=en", {
             "method": "GET",
             "headers": {
                 "x-rapidapi-host": "streaming-availability.p.rapidapi.com",
@@ -108,32 +107,32 @@ function getStreamAvailability(mediaId) {
 
 // Function to pull out streaming service Title from link
 function strmServiceTitle(str) {
-    var title = str.split('.');
+    var title = str?str.split('.'):["",""];
     return title[1];
 }
 
 // Function to check Local Storage for any recent user searches and add to array
-var recentSearchHistory = function () {
+var recentSearchHistory = async function () {
 
     if (localStorage.getItem("search term")) {
        document.querySelector("#recent-search-container").style.display = "block";
         userSearchHistory = JSON.parse(localStorage.getItem("search term"));
 
         for (var i = 0; i < 5; i++) {
-            getRecentIMDB(userSearchHistory[i]);  
+            await getRecentIMDB(userSearchHistory[i]);  
         };
 
-        function getRecentIMDB(title) {
+        async function getRecentIMDB(title) {
             var imdbQueryUrl = "https://imdb-api.com/en/API/SearchAll/" + imdbApiKey + "/" + title;
 
-            fetch(imdbQueryUrl).then(function (response) {
+            await fetch(imdbQueryUrl).then(function (response) {
                 if (response.ok) {
-                    response.json().then(function (data) {
+                    response.json().then(async function (data) {
                         var array = data.results;
                         console.log(array);
 
                         for (let i = 0; i < 5; i++) {
-                            getRecentStream(array[i].id).catch(err => {
+                            await getRecentStream(array[i].id).catch(err => {
                                 console.log('error in getIMDBMedia is: ', err)
                             })
                         }
@@ -146,10 +145,10 @@ var recentSearchHistory = function () {
             });
         }
 
-        function getRecentStream(mediaId) {
+        async function getRecentStream(mediaId) {
 
             try {
-                fetch("https://streaming-availability.p.rapidapi.com/get/ultra?imdb_id=" + mediaId + "&output_language=en", {
+                await fetch("https://streaming-availability.p.rapidapi.com/get/ultra?imdb_id=" + mediaId + "&output_language=en", {
                     "method": "GET",
                     "headers": {
                         "x-rapidapi-host": "streaming-availability.p.rapidapi.com",
@@ -166,8 +165,8 @@ var recentSearchHistory = function () {
                             var banner = "https://image.tmdb.org/t/p/w500/" + data.posterPath;
                             var title = data.title;
                             var streaming = data.streamingInfo;
-                            var service = Object.values(streaming)[0];
-                            var service2 = Object.values(service)[0];
+                            var service = streaming?Object.values(streaming)[0]:{};
+                            var service2 = service?Object.values(service)[0]:{};
                             var serviceLink = service2.link;
                             var serviceName = strmServiceTitle(serviceLink);
 
@@ -196,12 +195,12 @@ var getMovieIMDBMedia = function () {
 
     fetch(imdbQueryUrl).then(function (response) {
         if (response.ok) {
-            response.json().then(function (data) {
+            response.json().then(async function (data) {
                 var array = data.items;
                 for (let i = 0; i < 50; i++) {
-                    sleep(150);
+                    // sleep(150);
                     var media = array[i].id;
-                    getStreamAvailability(media)
+                    await getStreamAvailability(media)
                 }
             });
         } else {
@@ -216,12 +215,12 @@ var getTvShowIMDBMedia = function () {
 
     fetch(imdbQueryUrl).then(function (response) {
         if (response.ok) {
-            response.json().then(function (data) {
+            response.json().then(async function (data) {
                 var array = data.items;
                 for (let i = 0; i < 50; i++) {
-                    sleep(150);
+                    // sleep(150);
                     var media = array[i].id;
-                    getStreamAvailability(media)
+                    await getStreamAvailability(media)
                 }
             });
         } else {
@@ -236,12 +235,12 @@ var getTopRatedIMDBMedia = function () {
 
     fetch(imdbQueryUrl).then(function (response) {
         if (response.ok) {
-            response.json().then(function (data) {
+            response.json().then(async function (data) {
                 var array = data.results;
                 for (let i = 0; i < 50; i++) {
-                    sleep(150);
+                    // sleep(150);
                     var media = array[i].id;
-                    getStreamAvailability(media)
+                    await getStreamAvailability(media)
                 }
             });
         } else {
