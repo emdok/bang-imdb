@@ -122,7 +122,7 @@ var recentSearchHistory = async function () {
                         var array = data.results;
                         console.log(array);
 
-                        for (let i = 0; i < 5; i++) {
+                        for (let i = 0; i < 8; i++) {
                             await getStreamAvailability(array[i].id, recentSearchMaker).catch(err => {
                                 console.log('error in getIMDBMedia is: ', err)
                             })
