@@ -304,6 +304,7 @@ searchQuery.addEventListener('keyup', function (event) {
     if (event.keyCode === 13) {
         var searchTerms = this.value;
         searchTermHandler(searchTerms);
+        searchQuery.value = "";
     }
 });
 
