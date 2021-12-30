@@ -256,7 +256,7 @@ searchQuery.addEventListener('keyup', function (event) {
             var searchTerms = this.value;
             searchTermHandler(searchTerms);
             searchQuery.value = "";
-            searchBar.classList.remove("is-dirty");
+            searchBar.classList.remove("is-dirty", "is-focused");
         }
 
     }
