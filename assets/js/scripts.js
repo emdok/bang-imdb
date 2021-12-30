@@ -257,6 +257,10 @@ searchQuery.addEventListener('keyup', function (event) {
 // on click refresh homepage with default view
 navHome.addEventListener("click", function () {
     event.preventDefault();
+    navHome.classList.add("active");
+    navMovies.classList.remove("active");
+    navTvShows.classList.remove("active");
+    navTopRated.classList.remove("active");
 
     document.querySelector("#recent-search-container").style.display = "none";
     mediaGridEl.innerHTML = "";
@@ -266,7 +270,10 @@ navHome.addEventListener("click", function () {
 // on click refresh homepage, display only movies
 navMovies.addEventListener("click", function () {
     event.preventDefault()
-    console.log("movieClicked");
+    navHome.classList.remove("active");
+    navMovies.classList.add("active");
+    navTvShows.classList.remove("active");
+    navTopRated.classList.remove("active");
 
     document.querySelector("#recent-search-container").style.display = "none";
     mediaGridEl.innerHTML = "";
@@ -276,6 +283,10 @@ navMovies.addEventListener("click", function () {
 // on click refresh homepage, display only tv shows
 navTvShows.addEventListener("click", function () {
     event.preventDefault();
+    navHome.classList.remove("active");
+    navMovies.classList.remove("active");
+    navTvShows.classList.add("active");
+    navTopRated.classList.remove("active");
 
     document.querySelector("#recent-search-container").style.display = "none";
     mediaGridEl.innerHTML = "";
@@ -285,6 +296,10 @@ navTvShows.addEventListener("click", function () {
 // on click refresh page, display new and popular results
 navTopRated.addEventListener("click", function () {
     event.preventDefault();
+    navHome.classList.remove("active");
+    navMovies.classList.remove("active");
+    navTvShows.classList.remove("active");
+    navTopRated.classList.add("active");
 
     document.querySelector("#recent-search-container").style.display = "none";
     mediaGridEl.innerHTML = "";
