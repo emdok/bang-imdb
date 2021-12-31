@@ -1,5 +1,6 @@
 const imdbApiKey = "k_8oixkc80";
 const searchQuery = document.querySelector('#fixed-header-drawer-exp');
+var searchBar = document.querySelector("#search-bar");
 var mainEl = document.querySelector("main");
 var recentSearchEl = document.querySelector("#recent-search");
 var mediaGridEl = document.querySelector("#media-grid");
@@ -249,9 +250,15 @@ var searchTermHandler = function (keyword) {
 searchQuery.addEventListener('keyup', function (event) {
 
     if (event.keyCode === 13) {
-        var searchTerms = this.value;
-        searchTermHandler(searchTerms);
-        searchQuery.value = "";
+        if (this.value === "") {
+            searchQuery.value = "";
+        } else {
+            var searchTerms = this.value;
+            searchTermHandler(searchTerms);
+            searchQuery.value = "";
+            searchBar.classList.remove("is-dirty", "is-focused");
+        }
+
     }
 });
 
