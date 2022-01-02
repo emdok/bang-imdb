@@ -11,7 +11,7 @@ var navTopRated = document.querySelector("#top-rated");
 var userSearchHistory = [];
 
 //Default list of shows from IMDB
-var getDefaultIMDBMedia = function () {
+var getDefaultIMDBMedia = async function () {
     var imdbQueryUrl = "https://imdb-api.com/API/AdvancedSearch/" + imdbApiKey + "?title_type=feature,tv_series&countries=us&languages=en&sort=boxoffice_gross_us,desc";
 
     fetch(imdbQueryUrl).then(function (response) {
@@ -19,16 +19,17 @@ var getDefaultIMDBMedia = function () {
             response.json().then(async function (data) {
                 var array = data.results;
                 console.log(data);
-                for (let i = 0; i < 50; i++) {
+                for (let i = 0; i < 20; i++) {
                     var media = array[i].id;
                     await getStreamAvailability(media, cardMaker)
                 }
+                await searchQueryListener();
             });
         } else {
             alert("Error: Title not found");
         }
-    });
-};
+    }
+    )};
 
 getDefaultIMDBMedia();
 
@@ -149,7 +150,7 @@ var getMovieIMDBMedia = function () {
         if (response.ok) {
             response.json().then(async function (data) {
                 var array = data.items;
-                for (let i = 0; i < 50; i++) {
+                for (let i = 0; i < 20; i++) {
                     var media = array[i].id;
                     await getStreamAvailability(media, cardMaker)
                 }
@@ -168,7 +169,7 @@ var getTvShowIMDBMedia = function () {
         if (response.ok) {
             response.json().then(async function (data) {
                 var array = data.items;
-                for (let i = 0; i < 50; i++) {
+                for (let i = 0; i < 20; i++) {
                     var media = array[i].id;
                     await getStreamAvailability(media, cardMaker)
                 }
@@ -187,7 +188,7 @@ var getTopRatedIMDBMedia = function () {
         if (response.ok) {
             response.json().then(async function (data) {
                 var array = data.results;
-                for (let i = 0; i < 50; i++) {
+                for (let i = 0; i < 20; i++) {
                     var media = array[i].id;
                     await getStreamAvailability(media, cardMaker)
                 }
@@ -247,20 +248,24 @@ var searchTermHandler = function (keyword) {
 }
 
 // listen for the user to press return to capture search term
-searchQuery.addEventListener('keyup', function (event) {
+function searchQueryListener() {
+    searchQuery.addEventListener('keyup', function (event) {
 
-    if (event.keyCode === 13) {
-        if (this.value === "") {
-            searchQuery.value = "";
-        } else {
-            var searchTerms = this.value;
-            searchTermHandler(searchTerms);
-            searchQuery.value = "";
-            searchBar.classList.remove("is-dirty", "is-focused");
+
+        if (event.keyCode === 13) {
+            if (this.value === "") {
+                searchQuery.value = "";
+            } else {
+                var searchTerms = this.value;
+                searchTermHandler(searchTerms);
+                searchQuery.value = "";
+                searchBar.classList.remove("is-dirty", "is-focused");
+            }
+    
         }
+    });
+};
 
-    }
-});
 
 // on click refresh homepage with default view
 navHome.addEventListener("click", function () {
